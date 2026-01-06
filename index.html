@@ -2,86 +2,235 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Калькулятор ВП</title>
+
 <style>
-body { font-family: Arial; background:#f4f6f8; padding:20px; }
-.container { max-width:800px; background:#fff; padding:20px; border-radius:8px; }
-h2 { margin-top:30px; }
-input, select { width:100%; padding:8px; margin:5px 0 15px; }
-button { padding:12px; width:100%; font-size:16px; background:#1f7aed; color:#fff; border:none; border-radius:6px; cursor:pointer; }
-.result { margin-top:20px; padding:15px; font-size:18px; font-weight:bold; }
-.good { background:#d4edda; color:#155724; }
-.bad { background:#f8d7da; color:#721c24; }
+:root {
+  --bg: #f2f5f9;
+  --card: #ffffff;
+  --primary: #2563eb;
+  --good: #16a34a;
+  --bad: #dc2626;
+  --text: #1f2937;
+  --muted: #6b7280;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Inter, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.container {
+  max-width: 900px;
+  margin: 30px auto;
+  padding: 20px;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 28px;
+}
+
+.header p {
+  color: var(--muted);
+  margin-top: 8px;
+}
+
+.card {
+  background: var(--card);
+  border-radius: 14px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+}
+
+.card h2 {
+  margin-top: 0;
+  font-size: 18px;
+  margin-bottom: 15px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 15px;
+}
+
+label {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+input, select {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+button {
+  width: 100%;
+  padding: 14px;
+  border-radius: 12px;
+  border: none;
+  background: var(--primary);
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+button:hover {
+  opacity: 0.9;
+}
+
+.result {
+  margin-top: 20px;
+  padding: 20px;
+  border-radius: 14px;
+  font-size: 18px;
+}
+
+.result.good {
+  background: #ecfdf5;
+  color: var(--good);
+  border: 1px solid #86efac;
+}
+
+.result.bad {
+  background: #fef2f2;
+  color: var(--bad);
+  border: 1px solid #fecaca;
+}
+
+.result small {
+  display: block;
+  font-size: 14px;
+  color: var(--muted);
+  margin-top: 8px;
+}
 </style>
 </head>
 
 <body>
 <div class="container">
-<h1>Калькулятор восстановления платёжеспособности</h1>
 
-<h2>Клиент</h2>
-<input placeholder="Имя клиента">
-<input placeholder="Телефон">
+  <div class="header">
+    <h1>Калькулятор восстановления платёжеспособности</h1>
+    <p>Быстрая оценка клиента для менеджеров</p>
+  </div>
 
-<h2>Семья</h2>
-<input id="adults" type="number" placeholder="Кол-во взрослых">
-<input id="children" type="number" placeholder="Кол-во детей до 18">
+  <div class="card">
+    <h2>👤 Клиент и семья</h2>
+    <div class="grid">
+      <div>
+        <label>Количество взрослых</label>
+        <input type="number" id="adults">
+      </div>
+      <div>
+        <label>Дети до 18 лет</label>
+        <input type="number" id="children">
+      </div>
+      <div>
+        <label>Есть ипотека или автокредит?</label>
+        <select id="mortgage">
+          <option value="no">Нет</option>
+          <option value="yes">Да</option>
+        </select>
+      </div>
+    </div>
+  </div>
 
-<h2>Доходы</h2>
-<input id="salary" type="number" placeholder="Зарплата">
-<input id="benefits" type="number" placeholder="Пособия">
-<input id="pension" type="number" placeholder="Пенсия">
-<input id="alimony" type="number" placeholder="Алименты">
-<input id="spouse" type="number" placeholder="Доход супруга">
+  <div class="card">
+    <h2>💰 Доходы семьи (в месяц)</h2>
+    <div class="grid">
+      <div><label>Зарплата</label><input type="number" id="salary"></div>
+      <div><label>Пособия</label><input type="number" id="benefits"></div>
+      <div><label>Пенсия</label><input type="number" id="pension"></div>
+      <div><label>Алименты</label><input type="number" id="alimony"></div>
+      <div><label>Доход супруга</label><input type="number" id="spouse"></div>
+    </div>
+  </div>
 
-<h2>Кредиты</h2>
-<input id="credits" type="number" placeholder="Ежемесячный платёж по кредитам">
-<select id="mortgage">
-  <option value="no">Есть ипотека / авто? — НЕТ</option>
-  <option value="yes">Есть ипотека / авто — ДА</option>
-</select>
+  <div class="card">
+    <h2>🏦 Кредиты</h2>
+    <div class="grid">
+      <div>
+        <label>Ежемесячный платёж по всем кредитам</label>
+        <input type="number" id="credits">
+      </div>
+    </div>
+  </div>
 
-<button onclick="calculate()">Рассчитать</button>
+  <button onclick="calculate()">Рассчитать результат</button>
 
-<div id="result" class="result"></div>
+  <div id="result"></div>
+
 </div>
 
 <script>
 function calculate() {
-  const adults = +document.getElementById("adults").value || 0;
-  const children = +document.getElementById("children").value || 0;
-  const salary = +document.getElementById("salary").value || 0;
-  const benefits = +document.getElementById("benefits").value || 0;
-  const pension = +document.getElementById("pension").value || 0;
-  const alimony = +document.getElementById("alimony").value || 0;
-  const spouse = +document.getElementById("spouse").value || 0;
-  const credits = +document.getElementById("credits").value || 0;
-  const mortgage = document.getElementById("mortgage").value;
+  const adults = +adultsInput.value || 0;
+  const children = +childrenInput.value || 0;
+  const salary = +salaryInput.value || 0;
+  const benefits = +benefitsInput.value || 0;
+  const pension = +pensionInput.value || 0;
+  const alimony = +alimonyInput.value || 0;
+  const spouse = +spouseInput.value || 0;
+  const credits = +creditsInput.value || 0;
+  const mortgage = mortgageInput.value;
 
   const people = adults + children;
   const minLife = people * 50000;
   const income = salary + benefits + pension + alimony + spouse;
   const balance = income - minLife - credits;
-  const load = credits / income;
+  const load = income > 0 ? credits / income : 0;
 
-  let result = document.getElementById("result");
+  const result = document.getElementById("result");
 
   if (load > 0.7 && balance < 0 && mortgage === "no") {
-    result.innerHTML = `
-      ✅ ПОДХОДИТ ПОД ВП<br>
-      Долговая нагрузка: ${(load*100).toFixed(1)}%<br>
-      Дефицит: ${balance} ₸
-    `;
     result.className = "result good";
-  } else {
     result.innerHTML = `
-      ❌ НЕ ПОДХОДИТ<br>
-      Долговая нагрузка: ${(load*100).toFixed(1)}%<br>
-      Остаток: ${balance} ₸
+      ✅ <strong>КЛИЕНТ ПОДХОДИТ ПОД ВП</strong>
+      <small>Долговая нагрузка: ${(load*100).toFixed(1)}%</small>
+      <small>Дефицит средств: ${balance.toLocaleString()} ₸</small>
     `;
+  } else {
     result.className = "result bad";
+    result.innerHTML = `
+      ❌ <strong>КЛИЕНТ НЕ ПОДХОДИТ</strong>
+      <small>Долговая нагрузка: ${(load*100).toFixed(1)}%</small>
+      <small>Финансовый остаток: ${balance.toLocaleString()} ₸</small>
+    `;
   }
 }
+
+// input refs
+const adultsInput = document.getElementById("adults");
+const childrenInput = document.getElementById("children");
+const salaryInput = document.getElementById("salary");
+const benefitsInput = document.getElementById("benefits");
+const pensionInput = document.getElementById("pension");
+const alimonyInput = document.getElementById("alimony");
+const spouseInput = document.getElementById("spouse");
+const creditsInput = document.getElementById("credits");
+const mortgageInput = document.getElementById("mortgage");
 </script>
+
 </body>
 </html>

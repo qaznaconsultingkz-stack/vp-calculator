@@ -65,6 +65,9 @@
             padding: 8px;
             border-bottom: 1px solid #ddd;
         }
+        .history-item span {
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -72,11 +75,11 @@
     <div class="calculator">
         <div class="field">
             <label>Доход клиента (₸):</label>
-            <input type="text" id="income" value="600 000">
+            <input type="text" id="income" value="600000">
         </div>
         <div class="field">
             <label>Общий долг клиента (₸):</label>
-            <input type="text" id="totalDebt" value="15 000 000">
+            <input type="text" id="totalDebt" value="15000000">
         </div>
         <div class="field">
             <label>Сумма ипотеки и автокредита (₸):</label>
@@ -84,7 +87,7 @@
         </div>
         <div class="field">
             <label>Ежемесячные расходы на семью (₸):</label>
-            <input type="text" id="familyExpenses" value="250 000">
+            <input type="text" id="familyExpenses" value="250000">
         </div>
         <div class="field">
             <label>Доход супруга (₸, если есть):</label>
@@ -106,7 +109,27 @@
     <div class="history" id="history"></div>
 
     <script>
-        // Функция для конвертации строки с пробелами/запятыми в число
+        // Автоформатирование поля ввода с пробелами для тысяч
+        function formatNumber(input) {
+            let cursorPosition = input.selectionStart;
+            let originalLength = input.value.length;
+
+            // Убираем всё кроме цифр
+            let number = input.value.replace(/\D/g, '');
+            // Форматируем с пробелами
+            input.value = number.replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+
+            // Восстанавливаем позицию курсора
+            let newLength = input.value.length;
+            input.selectionStart = input.selectionEnd = cursorPosition + (newLength - originalLength);
+        }
+
+        // Добавляем автоформатирование на все текстовые поля
+        document.querySelectorAll('input[type="text"]').forEach(input => {
+            input.addEventListener('input', () => formatNumber(input));
+        });
+
+        // Функция для преобразования строки с пробелами в число
         function parseNumber(str) {
             return parseFloat(str.replace(/\s+/g, '').replace(',', '.')) || 0;
         }
@@ -146,17 +169,16 @@
             const historyItem = document.createElement('div');
             historyItem.className = 'history-item';
             historyItem.innerHTML = `
-                <strong>Доход клиента:</strong> ${income.toLocaleString()}₸<br>
-                <strong>Общий долг:</strong> ${totalDebt.toLocaleString()}₸<br>
-                <strong>Ипотека/Автокредит:</strong> ${mortgageCar.toLocaleString()}₸<br>
-                <strong>Расходы семьи:</strong> ${familyExpenses.toLocaleString()}₸<br>
-                <strong>Супруг доход/долг:</strong> ${spouseIncome.toLocaleString()}₸ / ${spouseDebt.toLocaleString()}₸<br>
-                <strong>Дети:</strong> ${childrenCount}<br>
-                <strong>Результат:</strong> ${resultText}
+                <span>Доход клиента:</span> ${income.toLocaleString()}₸<br>
+                <span>Общий долг:</span> ${totalDebt.toLocaleString()}₸<br>
+                <span>Ипотека/Автокредит:</span> ${mortgageCar.toLocaleString()}₸<br>
+                <span>Расходы семьи:</span> ${familyExpenses.toLocaleString()}₸<br>
+                <span>Супруг доход/долг:</span> ${spouseIncome.toLocaleString()}₸ / ${spouseDebt.toLocaleString()}₸<br>
+                <span>Дети:</span> ${childrenCount}<br>
+                <span>Результат:</span> ${resultText}
             `;
             historyDiv.prepend(historyItem); // новые расчеты сверху
         }
     </script>
 </body>
 </html>
-

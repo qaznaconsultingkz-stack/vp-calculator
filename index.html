@@ -1,184 +1,144 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Калькулятор платежеспособности</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            padding: 20px;
-            background-color: #f5f5f5;
-        }
-        h1 {
-            text-align: center;
-        }
-        .calculator {
-            max-width: 600px;
-            margin: auto;
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 15px rgba(0,0,0,0.1);
-        }
-        .field {
-            margin-bottom: 15px;
-        }
-        label {
-            display: block;
-            margin-bottom: 5px;
-        }
-        input[type="text"] {
-            width: 100%;
-            padding: 8px;
-            box-sizing: border-box;
-        }
-        button {
-            padding: 10px 20px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            cursor: pointer;
-            font-size: 16px;
-            border-radius: 5px;
-        }
-        button:hover {
-            background-color: #45a049;
-        }
-        .result {
-            margin-top: 20px;
-            padding: 15px;
-            background-color: #e7f3fe;
-            border-left: 6px solid #2196F3;
-        }
-        .history {
-            margin-top: 20px;
-            max-height: 300px;
-            overflow-y: auto;
-            background: #fff;
-            padding: 10px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-        }
-        .history-item {
-            margin-bottom: 10px;
-            padding: 8px;
-            border-bottom: 1px solid #ddd;
-        }
-        .history-item span {
-            font-weight: bold;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Калькулятор платежеспособности</title>
+<style>
+body { font-family: Arial, sans-serif; padding: 20px; background-color: #f5f5f5; }
+h1 { text-align: center; }
+.calculator { max-width: 600px; margin: auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 0 15px rgba(0,0,0,0.1); }
+.field { margin-bottom: 15px; }
+label { display: block; margin-bottom: 5px; }
+input[type="text"] { width: 100%; padding: 8px; box-sizing: border-box; }
+button { padding: 10px 20px; background-color: #4CAF50; color: white; border: none; cursor: pointer; font-size: 16px; border-radius: 5px; }
+button:hover { background-color: #45a049; }
+.result { margin-top: 20px; padding: 15px; background-color: #e7f3fe; border-left: 6px solid #2196F3; }
+.history { margin-top: 20px; max-height: 300px; overflow-y: auto; background: #fff; padding: 10px; border-radius: 5px; border: 1px solid #ccc; }
+.history-item { margin-bottom: 10px; padding: 8px; border-bottom: 1px solid #ddd; }
+.history-item span { font-weight: bold; }
+</style>
 </head>
 <body>
-    <h1>Калькулятор платежеспособности клиента</h1>
-    <div class="calculator">
-        <div class="field">
-            <label>Доход клиента (₸):</label>
-            <input type="text" id="income" value="600000">
-        </div>
-        <div class="field">
-            <label>Общий долг клиента (₸):</label>
-            <input type="text" id="totalDebt" value="15000000">
-        </div>
-        <div class="field">
-            <label>Сумма ипотеки и автокредита (₸):</label>
-            <input type="text" id="mortgageCar" value="0">
-        </div>
-        <div class="field">
-            <label>Ежемесячные расходы на семью (₸):</label>
-            <input type="text" id="familyExpenses" value="250000">
-        </div>
-        <div class="field">
-            <label>Доход супруга (₸, если есть):</label>
-            <input type="text" id="spouseIncome" value="0">
-        </div>
-        <div class="field">
-            <label>Ежемесячные кредиты супруга (₸, если есть):</label>
-            <input type="text" id="spouseDebt" value="0">
-        </div>
-        <div class="field">
-            <label>Количество детей:</label>
-            <input type="text" id="childrenCount" value="1">
-        </div>
-        <button onclick="calculate()">Рассчитать</button>
-        <div class="result" id="result"></div>
+
+<h1>Калькулятор платежеспособности клиента</h1>
+<div class="calculator">
+    <div class="field">
+        <label>Доход клиента (₸):</label>
+        <input type="text" id="income" value="600000">
     </div>
+    <div class="field">
+        <label>Общий долг клиента (₸):</label>
+        <input type="text" id="totalDebt" value="15000000">
+    </div>
+    <div class="field">
+        <label>Сумма ипотеки и автокредита (₸):</label>
+        <input type="text" id="mortgageCar" value="0">
+    </div>
+    <div class="field">
+        <label>Ежемесячные расходы на семью (₸):</label>
+        <input type="text" id="familyExpenses" value="250000">
+    </div>
+    <div class="field">
+        <label>Доход супруга (₸, если есть):</label>
+        <input type="text" id="spouseIncome" value="0">
+    </div>
+    <div class="field">
+        <label>Ежемесячные кредиты супруга (₸, если есть):</label>
+        <input type="text" id="spouseDebt" value="0">
+    </div>
+    <div class="field">
+        <label>Количество детей:</label>
+        <input type="text" id="childrenCount" value="1">
+    </div>
+    <div class="field">
+        <label>Количество членов семьи, проживающих вместе:</label>
+        <input type="text" id="familyMembers" value="1">
+    </div>
+    <button onclick="calculate()">Рассчитать</button>
+    <div class="result" id="result"></div>
+</div>
 
-    <h2>История расчетов</h2>
-    <div class="history" id="history"></div>
+<h2>История расчетов</h2>
+<div class="history" id="history"></div>
 
-    <script>
-        // Автоформатирование поля ввода с пробелами для тысяч
-        function formatNumber(input) {
-            let cursorPosition = input.selectionStart;
-            let originalLength = input.value.length;
+<script>
+// Автоформатирование поля ввода с пробелами для тысяч
+function formatNumberInput(input) {
+    let cursorPosition = input.selectionStart;
+    let originalLength = input.value.length;
 
-            // Убираем всё кроме цифр
-            let number = input.value.replace(/\D/g, '');
-            // Форматируем с пробелами
-            input.value = number.replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+    // Убираем всё кроме цифр
+    let number = input.value.replace(/\D/g, '');
+    // Форматируем с пробелами
+    input.value = number.replace(/\B(?=(\d{3})+(?!\d))/g, " ");
 
-            // Восстанавливаем позицию курсора
-            let newLength = input.value.length;
-            input.selectionStart = input.selectionEnd = cursorPosition + (newLength - originalLength);
+    // Восстанавливаем позицию курсора
+    let newLength = input.value.length;
+    input.selectionStart = input.selectionEnd = cursorPosition + (newLength - originalLength);
+}
+
+// Автоформатирование всех текстовых полей
+document.querySelectorAll('input[type="text"]').forEach(input => {
+    input.addEventListener('input', () => formatNumberInput(input));
+});
+
+// Преобразование строки с пробелами в число
+function parseNumber(str) {
+    return parseFloat(str.replace(/\s+/g, '').replace(',', '.')) || 0;
+}
+
+function calculate() {
+    const income = parseNumber(document.getElementById('income').value);
+    const totalDebt = parseNumber(document.getElementById('totalDebt').value);
+    const mortgageCar = parseNumber(document.getElementById('mortgageCar').value);
+    const familyExpenses = parseNumber(document.getElementById('familyExpenses').value);
+    const spouseIncome = parseNumber(document.getElementById('spouseIncome').value);
+    const spouseDebt = parseNumber(document.getElementById('spouseDebt').value);
+    const childrenCount = parseInt(document.getElementById('childrenCount').value) || 0;
+    const familyMembers = parseInt(document.getElementById('familyMembers').value) || 0;
+
+    // Основные расчеты
+    const monthlyDebtPayment = totalDebt / 60;
+    const childrenExpenses = childrenCount * 45000;
+    const familyMembersExpenses = familyMembers * 45000;
+    const totalIncome = income + (spouseIncome - spouseDebt);
+    const totalExpenses = monthlyDebtPayment + familyExpenses + childrenExpenses + familyMembersExpenses;
+
+    // Проверка ипотека + автокредит <70%
+    const mortgageCarRatio = mortgageCar / totalDebt;
+
+    let resultText = '';
+    if (mortgageCarRatio > 0.7) {
+        resultText = `Клиент не подходит: ипотека и автокредиты > 70% от всех долгов.`;
+    } else {
+        const difference = totalIncome - totalExpenses;
+        if (difference < -200000 || difference > 200000) {
+            resultText = `Клиент не подходит: разница доходов и расходов слишком большая (${difference.toLocaleString()}₸).`;
+        } else {
+            resultText = `Клиент подходит. Остаток после всех расходов: ${difference.toLocaleString()}₸.`;
         }
+    }
 
-        // Добавляем автоформатирование на все текстовые поля
-        document.querySelectorAll('input[type="text"]').forEach(input => {
-            input.addEventListener('input', () => formatNumber(input));
-        });
+    document.getElementById('result').innerHTML = resultText;
 
-        // Функция для преобразования строки с пробелами в число
-        function parseNumber(str) {
-            return parseFloat(str.replace(/\s+/g, '').replace(',', '.')) || 0;
-        }
+    // Добавляем в историю
+    const historyDiv = document.getElementById('history');
+    const historyItem = document.createElement('div');
+    historyItem.className = 'history-item';
+    historyItem.innerHTML = `
+        <span>Доход клиента:</span> ${income.toLocaleString()}₸<br>
+        <span>Общий долг:</span> ${totalDebt.toLocaleString()}₸<br>
+        <span>Ипотека/Автокредит:</span> ${mortgageCar.toLocaleString()}₸<br>
+        <span>Расходы семьи:</span> ${familyExpenses.toLocaleString()}₸<br>
+        <span>Супруг доход/долг:</span> ${spouseIncome.toLocaleString()}₸ / ${spouseDebt.toLocaleString()}₸<br>
+        <span>Дети:</span> ${childrenCount}<br>
+        <span>Члены семьи:</span> ${familyMembers}<br>
+        <span>Результат:</span> ${resultText}
+    `;
+    historyDiv.prepend(historyItem);
+}
+</script>
 
-        function calculate() {
-            const income = parseNumber(document.getElementById('income').value);
-            const totalDebt = parseNumber(document.getElementById('totalDebt').value);
-            const mortgageCar = parseNumber(document.getElementById('mortgageCar').value);
-            const familyExpenses = parseNumber(document.getElementById('familyExpenses').value);
-            const spouseIncome = parseNumber(document.getElementById('spouseIncome').value);
-            const spouseDebt = parseNumber(document.getElementById('spouseDebt').value);
-            const childrenCount = parseInt(document.getElementById('childrenCount').value) || 0;
-
-            const monthlyDebtPayment = totalDebt / 60;
-            const childrenExpenses = childrenCount * 45000;
-            const totalIncome = income + (spouseIncome - spouseDebt);
-            const totalExpenses = monthlyDebtPayment + familyExpenses + childrenExpenses;
-
-            const mortgageCarRatio = mortgageCar / totalDebt;
-
-            let resultText = '';
-            if (mortgageCarRatio > 0.7) {
-                resultText = `Клиент не подходит: ипотека и автокредиты > 70% от всех долгов.`;
-            } else {
-                const difference = totalIncome - totalExpenses;
-                if (difference < -200000 || difference > 200000) {
-                    resultText = `Клиент не подходит: разница доходов и расходов слишком большая (${difference.toLocaleString()}₸).`;
-                } else {
-                    resultText = `Клиент подходит. Остаток после всех расходов: ${difference.toLocaleString()}₸.`;
-                }
-            }
-
-            document.getElementById('result').innerHTML = resultText;
-
-            // Добавляем в историю
-            const historyDiv = document.getElementById('history');
-            const historyItem = document.createElement('div');
-            historyItem.className = 'history-item';
-            historyItem.innerHTML = `
-                <span>Доход клиента:</span> ${income.toLocaleString()}₸<br>
-                <span>Общий долг:</span> ${totalDebt.toLocaleString()}₸<br>
-                <span>Ипотека/Автокредит:</span> ${mortgageCar.toLocaleString()}₸<br>
-                <span>Расходы семьи:</span> ${familyExpenses.toLocaleString()}₸<br>
-                <span>Супруг доход/долг:</span> ${spouseIncome.toLocaleString()}₸ / ${spouseDebt.toLocaleString()}₸<br>
-                <span>Дети:</span> ${childrenCount}<br>
-                <span>Результат:</span> ${resultText}
-            `;
-            historyDiv.prepend(historyItem); // новые расчеты сверху
-        }
-    </script>
 </body>
 </html>

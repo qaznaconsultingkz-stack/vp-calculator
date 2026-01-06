@@ -1,236 +1,130 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Калькулятор ВП</title>
-
-<style>
-:root {
-  --bg: #f2f5f9;
-  --card: #ffffff;
-  --primary: #2563eb;
-  --good: #16a34a;
-  --bad: #dc2626;
-  --text: #1f2937;
-  --muted: #6b7280;
-}
-
-* {
-  box-sizing: border-box;
-}
-
-body {
-  margin: 0;
-  font-family: Inter, Arial, sans-serif;
-  background: var(--bg);
-  color: var(--text);
-}
-
-.container {
-  max-width: 900px;
-  margin: 30px auto;
-  padding: 20px;
-}
-
-.header {
-  text-align: center;
-  margin-bottom: 30px;
-}
-
-.header h1 {
-  margin: 0;
-  font-size: 28px;
-}
-
-.header p {
-  color: var(--muted);
-  margin-top: 8px;
-}
-
-.card {
-  background: var(--card);
-  border-radius: 14px;
-  padding: 20px;
-  margin-bottom: 20px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-}
-
-.card h2 {
-  margin-top: 0;
-  font-size: 18px;
-  margin-bottom: 15px;
-}
-
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 15px;
-}
-
-label {
-  font-size: 13px;
-  color: var(--muted);
-}
-
-input, select {
-  width: 100%;
-  padding: 10px;
-  border-radius: 8px;
-  border: 1px solid #e5e7eb;
-  font-size: 14px;
-  margin-top: 5px;
-}
-
-button {
-  width: 100%;
-  padding: 14px;
-  border-radius: 12px;
-  border: none;
-  background: var(--primary);
-  color: white;
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  margin-top: 10px;
-}
-
-button:hover {
-  opacity: 0.9;
-}
-
-.result {
-  margin-top: 20px;
-  padding: 20px;
-  border-radius: 14px;
-  font-size: 18px;
-}
-
-.result.good {
-  background: #ecfdf5;
-  color: var(--good);
-  border: 1px solid #86efac;
-}
-
-.result.bad {
-  background: #fef2f2;
-  color: var(--bad);
-  border: 1px solid #fecaca;
-}
-
-.result small {
-  display: block;
-  font-size: 14px;
-  color: var(--muted);
-  margin-top: 8px;
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Калькулятор платежеспособности</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        h1 {
+            text-align: center;
+        }
+        .calculator {
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+        .field {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #e7f3fe;
+            border-left: 6px solid #2196F3;
+        }
+    </style>
 </head>
-
 <body>
-<div class="container">
-
-  <div class="header">
-    <h1>Калькулятор восстановления платёжеспособности</h1>
-    <p>Быстрая оценка клиента для менеджеров</p>
-  </div>
-
-  <div class="card">
-    <h2>👤 Клиент и семья</h2>
-    <div class="grid">
-      <div>
-        <label>Количество взрослых</label>
-        <input type="number" id="adults">
-      </div>
-      <div>
-        <label>Дети до 18 лет</label>
-        <input type="number" id="children">
-      </div>
-      <div>
-        <label>Есть ипотека или автокредит?</label>
-        <select id="mortgage">
-          <option value="no">Нет</option>
-          <option value="yes">Да</option>
-        </select>
-      </div>
+    <h1>Калькулятор платежеспособности клиента</h1>
+    <div class="calculator">
+        <div class="field">
+            <label>Доход клиента (₸):</label>
+            <input type="number" id="income" value="600000">
+        </div>
+        <div class="field">
+            <label>Общий долг клиента (₸):</label>
+            <input type="number" id="totalDebt" value="15000000">
+        </div>
+        <div class="field">
+            <label>Сумма ипотеки и автокредита (₸):</label>
+            <input type="number" id="mortgageCar" value="0">
+        </div>
+        <div class="field">
+            <label>Ежемесячные расходы на семью (₸):</label>
+            <input type="number" id="familyExpenses" value="250000">
+        </div>
+        <div class="field">
+            <label>Доход супруга (₸, если есть):</label>
+            <input type="number" id="spouseIncome" value="0">
+        </div>
+        <div class="field">
+            <label>Ежемесячные кредиты супруга (₸, если есть):</label>
+            <input type="number" id="spouseDebt" value="0">
+        </div>
+        <div class="field">
+            <label>Количество детей:</label>
+            <input type="number" id="childrenCount" value="1">
+        </div>
+        <button onclick="calculate()">Рассчитать</button>
+        <div class="result" id="result"></div>
     </div>
-  </div>
 
-  <div class="card">
-    <h2>💰 Доходы семьи (в месяц)</h2>
-    <div class="grid">
-      <div><label>Зарплата</label><input type="number" id="salary"></div>
-      <div><label>Пособия</label><input type="number" id="benefits"></div>
-      <div><label>Пенсия</label><input type="number" id="pension"></div>
-      <div><label>Алименты</label><input type="number" id="alimony"></div>
-      <div><label>Доход супруга</label><input type="number" id="spouse"></div>
-    </div>
-  </div>
+    <script>
+        function calculate() {
+            const income = parseFloat(document.getElementById('income').value);
+            const totalDebt = parseFloat(document.getElementById('totalDebt').value);
+            const mortgageCar = parseFloat(document.getElementById('mortgageCar').value);
+            const familyExpenses = parseFloat(document.getElementById('familyExpenses').value);
+            const spouseIncome = parseFloat(document.getElementById('spouseIncome').value);
+            const spouseDebt = parseFloat(document.getElementById('spouseDebt').value);
+            const childrenCount = parseInt(document.getElementById('childrenCount').value);
 
-  <div class="card">
-    <h2>🏦 Кредиты</h2>
-    <div class="grid">
-      <div>
-        <label>Ежемесячный платёж по всем кредитам</label>
-        <input type="number" id="credits">
-      </div>
-    </div>
-  </div>
+            // Ежемесячный платеж по долгам на 60 месяцев
+            const monthlyDebtPayment = totalDebt / 60;
 
-  <button onclick="calculate()">Рассчитать результат</button>
+            // Расходы на детей (МЗП 45 000)
+            const childrenExpenses = childrenCount * 45000;
 
-  <div id="result"></div>
+            // Общий доход семьи
+            const totalIncome = income + (spouseIncome - spouseDebt);
 
-</div>
+            // Общие расходы
+            const totalExpenses = monthlyDebtPayment + familyExpenses + childrenExpenses;
 
-<script>
-function calculate() {
-  const adults = +adultsInput.value || 0;
-  const children = +childrenInput.value || 0;
-  const salary = +salaryInput.value || 0;
-  const benefits = +benefitsInput.value || 0;
-  const pension = +pensionInput.value || 0;
-  const alimony = +alimonyInput.value || 0;
-  const spouse = +spouseInput.value || 0;
-  const credits = +creditsInput.value || 0;
-  const mortgage = mortgageInput.value;
+            // Проверка ипотека + автокредит < 70% от всех кредитов
+            const mortgageCarRatio = mortgageCar / totalDebt;
+            if (mortgageCarRatio > 0.7) {
+                document.getElementById('result').innerHTML = `Клиент не подходит: ипотека и автокредиты > 70% от всех долгов.`;
+                return;
+            }
 
-  const people = adults + children;
-  const minLife = people * 50000;
-  const income = salary + benefits + pension + alimony + spouse;
-  const balance = income - minLife - credits;
-  const load = income > 0 ? credits / income : 0;
-
-  const result = document.getElementById("result");
-
-  if (load > 0.7 && balance < 0 && mortgage === "no") {
-    result.className = "result good";
-    result.innerHTML = `
-      ✅ <strong>КЛИЕНТ ПОДХОДИТ ПОД ВП</strong>
-      <small>Долговая нагрузка: ${(load*100).toFixed(1)}%</small>
-      <small>Дефицит средств: ${balance.toLocaleString()} ₸</small>
-    `;
-  } else {
-    result.className = "result bad";
-    result.innerHTML = `
-      ❌ <strong>КЛИЕНТ НЕ ПОДХОДИТ</strong>
-      <small>Долговая нагрузка: ${(load*100).toFixed(1)}%</small>
-      <small>Финансовый остаток: ${balance.toLocaleString()} ₸</small>
-    `;
-  }
-}
-
-// input refs
-const adultsInput = document.getElementById("adults");
-const childrenInput = document.getElementById("children");
-const salaryInput = document.getElementById("salary");
-const benefitsInput = document.getElementById("benefits");
-const pensionInput = document.getElementById("pension");
-const alimonyInput = document.getElementById("alimony");
-const spouseInput = document.getElementById("spouse");
-const creditsInput = document.getElementById("credits");
-const mortgageInput = document.getElementById("mortgage");
-</script>
-
+            // Проверка платежеспособности
+            const difference = totalIncome - totalExpenses;
+            if (difference < -200000 || difference > 200000) {
+                document.getElementById('result').innerHTML = `Клиент не подходит: разница доходов и расходов слишком большая (${difference.toLocaleString()}₸).`;
+            } else {
+                document.getElementById('result').innerHTML = `Клиент подходит. Остаток после всех расходов: ${difference.toLocaleString()}₸.`;
+            }
+        }
+    </script>
 </body>
 </html>

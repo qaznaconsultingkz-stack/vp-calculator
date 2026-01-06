@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Калькулятор ВП</title>
+<style>
+body { font-family: Arial; background:#f4f6f8; padding:20px; }
+.container { max-width:800px; background:#fff; padding:20px; border-radius:8px; }
+h2 { margin-top:30px; }
+input, select { width:100%; padding:8px; margin:5px 0 15px; }
+button { padding:12px; width:100%; font-size:16px; background:#1f7aed; color:#fff; border:none; border-radius:6px; cursor:pointer; }
+.result { margin-top:20px; padding:15px; font-size:18px; font-weight:bold; }
+.good { background:#d4edda; color:#155724; }
+.bad { background:#f8d7da; color:#721c24; }
+</style>
+</head>
+
+<body>
+<div class="container">
+<h1>Калькулятор восстановления платёжеспособности</h1>
+
+<h2>Клиент</h2>
+<input placeholder="Имя клиента">
+<input placeholder="Телефон">
+
+<h2>Семья</h2>
+<input id="adults" type="number" placeholder="Кол-во взрослых">
+<input id="children" type="number" placeholder="Кол-во детей до 18">
+
+<h2>Доходы</h2>
+<input id="salary" type="number" placeholder="Зарплата">
+<input id="benefits" type="number" placeholder="Пособия">
+<input id="pension" type="number" placeholder="Пенсия">
+<input id="alimony" type="number" placeholder="Алименты">
+<input id="spouse" type="number" placeholder="Доход супруга">
+
+<h2>Кредиты</h2>
+<input id="credits" type="number" placeholder="Ежемесячный платёж по кредитам">
+<select id="mortgage">
+  <option value="no">Есть ипотека / авто? — НЕТ</option>
+  <option value="yes">Есть ипотека / авто — ДА</option>
+</select>
+
+<button onclick="calculate()">Рассчитать</button>
+
+<div id="result" class="result"></div>
+</div>
+
+<script>
+function calculate() {
+  const adults = +document.getElementById("adults").value || 0;
+  const children = +document.getElementById("children").value || 0;
+  const salary = +document.getElementById("salary").value || 0;
+  const benefits = +document.getElementById("benefits").value || 0;
+  const pension = +document.getElementById("pension").value || 0;
+  const alimony = +document.getElementById("alimony").value || 0;
+  const spouse = +document.getElementById("spouse").value || 0;
+  const credits = +document.getElementById("credits").value || 0;
+  const mortgage = document.getElementById("mortgage").value;
+
+  const people = adults + children;
+  const minLife = people * 50000;
+  const income = salary + benefits + pension + alimony + spouse;
+  const balance = income - minLife - credits;
+  const load = credits / income;
+
+  let result = document.getElementById("result");
+
+  if (load > 0.7 && balance < 0 && mortgage === "no") {
+    result.innerHTML = `
+      ✅ ПОДХОДИТ ПОД ВП<br>
+      Долговая нагрузка: ${(load*100).toFixed(1)}%<br>
+      Дефицит: ${balance} ₸
+    `;
+    result.className = "result good";
+  } else {
+    result.innerHTML = `
+      ❌ НЕ ПОДХОДИТ<br>
+      Долговая нагрузка: ${(load*100).toFixed(1)}%<br>
+      Остаток: ${balance} ₸
+    `;
+    result.className = "result bad";
+  }
+}
+</script>
+</body>
+</html>

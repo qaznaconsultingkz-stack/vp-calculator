@@ -36,7 +36,7 @@ button:hover { background-color: #45a049; }
         <input type="text" id="mortgageCar" value="0">
     </div>
     <div class="field">
-        <label>Ежемесячные расходы на семью (₸):</label>
+        <label>Ком. услуги и доп. расходы на семью (секции, фитнес, кружки, подготовительные) (₸):</label>
         <input type="text" id="familyExpenses" value="250000">
     </div>
     <div class="field">
@@ -52,7 +52,7 @@ button:hover { background-color: #45a049; }
         <input type="text" id="childrenCount" value="1">
     </div>
     <div class="field">
-        <label>Количество членов семьи, проживающих вместе:</label>
+        <label>Для расчета минимальный прожиточный минимум на 1 члена семьи:</label>
         <input type="text" id="familyMembers" value="1">
     </div>
     <button onclick="calculate()">Рассчитать</button>
@@ -68,22 +68,19 @@ function formatNumberInput(input) {
     let cursorPosition = input.selectionStart;
     let originalLength = input.value.length;
 
-    // Убираем всё кроме цифр
     let number = input.value.replace(/\D/g, '');
-    // Форматируем с пробелами
     input.value = number.replace(/\B(?=(\d{3})+(?!\d))/g, " ");
 
-    // Восстанавливаем позицию курсора
     let newLength = input.value.length;
     input.selectionStart = input.selectionEnd = cursorPosition + (newLength - originalLength);
 }
 
-// Автоформатирование всех текстовых полей
+// Применяем автоформатирование ко всем текстовым полям
 document.querySelectorAll('input[type="text"]').forEach(input => {
     input.addEventListener('input', () => formatNumberInput(input));
 });
 
-// Преобразование строки с пробелами в число
+// Преобразуем строку с пробелами в число
 function parseNumber(str) {
     return parseFloat(str.replace(/\s+/g, '').replace(',', '.')) || 0;
 }
@@ -130,10 +127,10 @@ function calculate() {
         <span>Доход клиента:</span> ${income.toLocaleString()}₸<br>
         <span>Общий долг:</span> ${totalDebt.toLocaleString()}₸<br>
         <span>Ипотека/Автокредит:</span> ${mortgageCar.toLocaleString()}₸<br>
-        <span>Расходы семьи:</span> ${familyExpenses.toLocaleString()}₸<br>
+        <span>Ком. услуги и доп. расходы на семью:</span> ${familyExpenses.toLocaleString()}₸<br>
         <span>Супруг доход/долг:</span> ${spouseIncome.toLocaleString()}₸ / ${spouseDebt.toLocaleString()}₸<br>
         <span>Дети:</span> ${childrenCount}<br>
-        <span>Члены семьи:</span> ${familyMembers}<br>
+        <span>Минимальный прожиточный минимум на 1 члена семьи:</span> ${familyMembers}<br>
         <span>Результат:</span> ${resultText}
     `;
     historyDiv.prepend(historyItem);

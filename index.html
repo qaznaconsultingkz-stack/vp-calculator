@@ -36,7 +36,7 @@ button:hover { background-color: #45a049; }
         <input type="text" id="mortgageCar" value="0">
     </div>
     <div class="field">
-        <label>Ком. услуги и доп. расходы на семью (секции, фитнес, кружки, подготовительные) (₸):</label>
+        <label>Ком. услуги, аренда квартиры и доп. расходы на семью (секции, фитнес, кружки, подготовительные) (₸):</label>
         <input type="text" id="familyExpenses" value="250000">
     </div>
     <div class="field">
@@ -110,7 +110,7 @@ function calculate() {
         resultText = `Клиент не подходит: ипотека и автокредиты > 70% от всех долгов.`;
     } else {
         const difference = totalIncome - totalExpenses;
-        if (difference < -200000 || difference > 200000) {
+        if (difference < -100000 || difference > 100000) { // теперь ±100000
             resultText = `Клиент не подходит: разница доходов и расходов слишком большая (${difference.toLocaleString()}₸).`;
         } else {
             resultText = `Клиент подходит. Остаток после всех расходов: ${difference.toLocaleString()}₸.`;
@@ -127,7 +127,7 @@ function calculate() {
         <span>Доход клиента:</span> ${income.toLocaleString()}₸<br>
         <span>Общий долг:</span> ${totalDebt.toLocaleString()}₸<br>
         <span>Ипотека/Автокредит:</span> ${mortgageCar.toLocaleString()}₸<br>
-        <span>Ком. услуги и доп. расходы на семью:</span> ${familyExpenses.toLocaleString()}₸<br>
+        <span>Ком. услуги, аренда квартиры и доп. расходы на семью:</span> ${familyExpenses.toLocaleString()}₸<br>
         <span>Супруг доход/долг:</span> ${spouseIncome.toLocaleString()}₸ / ${spouseDebt.toLocaleString()}₸<br>
         <span>Дети:</span> ${childrenCount}<br>
         <span>Минимальный прожиточный минимум на 1 члена семьи:</span> ${familyMembers}<br>
